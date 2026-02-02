@@ -449,21 +449,29 @@
 
                 <div style="margin-bottom: 20px;">
                     <p style="font-size: 15px; margin-bottom: 10px;"><strong>Tipo di Clustering:</strong></p>
-                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                         <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.2s;" class="clustering-option">
                             <input type="radio" name="clustering-type" value="keywords" checked style="width: 18px; height: 18px; cursor: pointer;">
                             <span>
-                                <strong>Clusterizza Keywords</strong>
+                                <strong>Solo Keywords</strong>
                                 <br>
-                                <small style="color: #666;">Raggruppa le keyword in input per topic</small>
+                                <small style="color: #666;">Topic basato sulle keyword</small>
                             </span>
                         </label>
                         <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.2s;" class="clustering-option">
                             <input type="radio" name="clustering-type" value="prompts" style="width: 18px; height: 18px; cursor: pointer;">
                             <span>
-                                <strong>Clusterizza Prompt</strong>
+                                <strong>Solo Prompt</strong>
                                 <br>
-                                <small style="color: #666;">Raggruppa i prompt generati per topic</small>
+                                <small style="color: #666;">Topic basato sui prompt generati</small>
+                            </span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.2s;" class="clustering-option">
+                            <input type="radio" name="clustering-type" value="both" style="width: 18px; height: 18px; cursor: pointer;">
+                            <span>
+                                <strong>Entrambi</strong>
+                                <br>
+                                <small style="color: #666;">Due colonne: Topic KW + Topic Prompt</small>
                             </span>
                         </label>
                     </div>
@@ -537,7 +545,7 @@
                 </div>
                 
                 <table class="results-table">
-                    <thead>
+                    <thead id="results-thead">
                         <tr>
                             <th style="width: 40px;">
                                 <input type="checkbox" id="header-checkbox" style="width: 16px; height: 16px; cursor: pointer;">
@@ -686,13 +694,21 @@
             }
         });
         
+        // Store clustering type globally for updateResults
+        let currentClusteringType = 'keywords';
+
         async function processKeywords(keywords, customIntents, generateVariants, market, clusteringType) {
+            currentClusteringType = clusteringType;
+
             if (clusteringType === 'keywords') {
                 // FLUSSO 1: Clustering delle keyword (comportamento originale)
                 await processWithKeywordClustering(keywords, customIntents, generateVariants, market);
-            } else {
+            } else if (clusteringType === 'prompts') {
                 // FLUSSO 2: Clustering dei prompt generati
                 await processWithPromptClustering(keywords, customIntents, generateVariants, market);
+            } else {
+                // FLUSSO 3: Entrambi - doppio clustering
+                await processWithBothClustering(keywords, customIntents, generateVariants, market);
             }
         }
 
@@ -933,22 +949,225 @@
                 progressContainer.classList.remove('active');
             }, 2000);
         }
-        
+
+        async function processWithBothClustering(keywords, customIntents, generateVariants, market) {
+            // PHASE 1: Clustering delle keyword
+            progressText.textContent = 'Fase 1/3: Analisi topic clustering keywords...';
+            progressFill.style.width = '5%';
+            progressFill.textContent = '5%';
+
+            const clusteringFormData = new FormData();
+            clusteringFormData.append('action', 'cluster');
+            clusteringFormData.append('keywords', JSON.stringify(keywords));
+            clusteringFormData.append('market', market);
+
+            const clusterResponse = await fetch('process.php', {
+                method: 'POST',
+                body: clusteringFormData
+            });
+
+            let contentType = clusterResponse.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await clusterResponse.text();
+                console.error('Non-JSON response received:', textResponse);
+                throw new Error('Server returned non-JSON response during keyword clustering.');
+            }
+
+            if (!clusterResponse.ok) {
+                throw new Error(`HTTP error! status: ${clusterResponse.status}`);
+            }
+
+            const clusterData = await clusterResponse.json();
+
+            if (clusterData.error) {
+                throw new Error(clusterData.error);
+            }
+
+            const keywordTopicMapping = clusterData.topic_mapping;
+
+            progressFill.style.width = '15%';
+            progressFill.textContent = '15%';
+
+            // PHASE 2: Generazione prompt con topic keyword
+            const batchSize = 50;
+            const totalBatches = Math.ceil(keywords.length / batchSize);
+
+            for (let i = 0; i < totalBatches; i++) {
+                const batch = keywords.slice(i * batchSize, (i + 1) * batchSize);
+                const batchNum = i + 1;
+
+                progressText.textContent = `Fase 2/3: Batch ${batchNum}/${totalBatches} - Generazione prompt...`;
+
+                const formData = new FormData();
+                formData.append('action', 'process');
+                formData.append('keywords', JSON.stringify(batch));
+                formData.append('batch', batchNum);
+                formData.append('total_batches', totalBatches);
+                formData.append('topic_mapping', JSON.stringify(keywordTopicMapping));
+                formData.append('custom_intents', JSON.stringify(customIntents));
+                formData.append('generate_variants', generateVariants ? '1' : '0');
+                formData.append('market', market);
+
+                const response = await fetch('process.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const textResponse = await response.text();
+                    console.error('Non-JSON response received:', textResponse);
+                    throw new Error('Server error during processing.');
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Update progress (15% + 55% for prompt generation)
+                const progress = 15 + Math.round(((i + 1) / totalBatches) * 55);
+                progressFill.style.width = progress + '%';
+                progressFill.textContent = progress + '%';
+
+                // Add results - store keyword topic as topicKeyword
+                data.results.forEach(result => {
+                    result.topicKeyword = result.topic;
+                });
+                allResults = allResults.concat(data.results);
+            }
+
+            // PHASE 3: Clustering dei prompt generati
+            progressText.textContent = 'Fase 3/3: Analisi topic clustering prompt...';
+            progressFill.style.width = '75%';
+            progressFill.textContent = '75%';
+
+            // Collect all prompts for clustering
+            const allPrompts = [];
+            const promptToResultIndex = [];
+
+            allResults.forEach((result, resultIndex) => {
+                const prompts = Array.isArray(result.prompts) ? result.prompts : [result.prompt];
+                prompts.forEach((prompt, variantIndex) => {
+                    allPrompts.push(prompt);
+                    promptToResultIndex.push({ resultIndex, variantIndex });
+                });
+            });
+
+            const promptClusteringFormData = new FormData();
+            promptClusteringFormData.append('action', 'cluster_prompts');
+            promptClusteringFormData.append('prompts', JSON.stringify(allPrompts));
+            promptClusteringFormData.append('market', market);
+
+            const promptClusterResponse = await fetch('process.php', {
+                method: 'POST',
+                body: promptClusteringFormData
+            });
+
+            contentType = promptClusterResponse.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await promptClusterResponse.text();
+                console.error('Non-JSON response received:', textResponse);
+                throw new Error('Server returned non-JSON response during prompt clustering.');
+            }
+
+            if (!promptClusterResponse.ok) {
+                throw new Error(`HTTP error! status: ${promptClusterResponse.status}`);
+            }
+
+            const promptClusterData = await promptClusterResponse.json();
+
+            if (promptClusterData.error) {
+                throw new Error(promptClusterData.error);
+            }
+
+            const promptTopicMapping = promptClusterData.topic_mapping;
+
+            progressFill.style.width = '90%';
+            progressFill.textContent = '90%';
+
+            // Apply prompt topic to each result
+            allPrompts.forEach((prompt, promptIndex) => {
+                const promptTopic = promptTopicMapping[prompt] || 'Uncategorized';
+                const { resultIndex, variantIndex } = promptToResultIndex[promptIndex];
+
+                // Set topicPrompt for the result
+                if (variantIndex === 0 || !allResults[resultIndex].topicPrompt || allResults[resultIndex].topicPrompt === 'Uncategorized') {
+                    allResults[resultIndex].topicPrompt = promptTopic;
+                }
+
+                // Store topics per variant
+                if (!allResults[resultIndex].topicsPrompt) {
+                    allResults[resultIndex].topicsPrompt = [];
+                }
+                allResults[resultIndex].topicsPrompt[variantIndex] = promptTopic;
+            });
+
+            progressFill.style.width = '100%';
+            progressFill.textContent = '100%';
+
+            // Update results display
+            updateResults();
+
+            progressText.textContent = '✓ Completato!';
+            setTimeout(() => {
+                progressContainer.classList.remove('active');
+            }, 2000);
+        }
+
         function updateResults() {
             resultsBody.innerHTML = '';
-            
+
+            // Update table header based on clustering type
+            const thead = document.getElementById('results-thead');
+            if (currentClusteringType === 'both') {
+                thead.innerHTML = `
+                    <tr>
+                        <th style="width: 40px;">
+                            <input type="checkbox" id="header-checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                        </th>
+                        <th style="width: 160px;">Keyword</th>
+                        <th style="width: 70px;">Volume</th>
+                        <th style="width: 110px;">Topic (KW)</th>
+                        <th style="width: 110px;">Topic (Prompt)</th>
+                        <th style="width: 90px;">Intent</th>
+                        <th>Prompt Conversazionale</th>
+                        <th style="width: 50px;">Var.</th>
+                    </tr>
+                `;
+            } else {
+                thead.innerHTML = `
+                    <tr>
+                        <th style="width: 40px;">
+                            <input type="checkbox" id="header-checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                        </th>
+                        <th style="width: 180px;">Keyword</th>
+                        <th style="width: 80px;">Volume</th>
+                        <th style="width: 120px;">Topic</th>
+                        <th style="width: 100px;">Intent</th>
+                        <th>Prompt Conversazionale</th>
+                        <th style="width: 60px;">Var.</th>
+                    </tr>
+                `;
+            }
+
             allResults.forEach((result, index) => {
                 // Handle both single prompt and variants array
                 const prompts = Array.isArray(result.prompts) ? result.prompts : [result.prompt];
                 const intents = Array.isArray(result.intents) ? result.intents : [result.intent];
                 const variantCount = prompts.length;
-                
+
                 // For multiple variants, create one row per variant
                 prompts.forEach((prompt, variantIndex) => {
                     const row = document.createElement('tr');
                     row.setAttribute('data-keyword', result.keyword);
                     row.setAttribute('data-variant', variantIndex);
-                    
+
                     // Intent color coding
                     const intentColors = {
                         'research': '#3b82f6',
@@ -959,17 +1178,32 @@
                     };
                     const currentIntent = intents[variantIndex] || intents[0] || 'N/A';
                     const intentColor = intentColors[currentIntent.toLowerCase()] || '#6b7280';
-                    
+
                     // Show keyword/volume/topic only on first variant
                     const showMainData = variantIndex === 0;
-                    
+
+                    // Build topic cells based on clustering type
+                    let topicCells = '';
+                    if (currentClusteringType === 'both') {
+                        const topicKw = result.topicKeyword || result.topic || 'N/A';
+                        const topicPrompt = result.topicPrompt || 'N/A';
+                        topicCells = `
+                            <td style="color: #667eea; font-weight: 600; font-size: 12px;">${showMainData ? escapeHtml(topicKw) : ''}</td>
+                            <td style="color: #10b981; font-weight: 600; font-size: 12px;">${showMainData ? escapeHtml(topicPrompt) : ''}</td>
+                        `;
+                    } else {
+                        topicCells = `
+                            <td style="color: #667eea; font-weight: 600; font-size: 13px;">${showMainData ? escapeHtml(result.topic || 'N/A') : ''}</td>
+                        `;
+                    }
+
                     row.innerHTML = `
                         <td class="row-checkbox">
                             <input type="checkbox" class="result-checkbox" data-index="${index}" data-variant="${variantIndex}">
                         </td>
                         <td class="keyword-cell">${showMainData ? escapeHtml(result.keyword) : ''}</td>
                         <td class="volume-cell">${showMainData ? formatNumber(result.volume) : ''}</td>
-                        <td style="color: #667eea; font-weight: 600; font-size: 13px;">${showMainData ? escapeHtml(result.topic || 'N/A') : ''}</td>
+                        ${topicCells}
                         <td>
                             <span style="
                                 display: inline-block;
@@ -987,7 +1221,7 @@
                             ${variantCount > 1 ? `<span class="variant-badge">${variantIndex + 1}/${variantCount}</span>` : ''}
                         </td>
                     `;
-                    
+
                     resultsBody.appendChild(row);
                 });
             });
@@ -1105,75 +1339,105 @@
         // Download selected
         document.getElementById('download-selected-btn').addEventListener('click', () => {
             const selectedCheckboxes = document.querySelectorAll('.result-checkbox:checked');
-            
+
             if (selectedCheckboxes.length === 0) {
                 showError('Seleziona almeno una riga da scaricare');
                 return;
             }
-            
+
             const selectedResults = [];
             selectedCheckboxes.forEach(checkbox => {
                 const index = parseInt(checkbox.getAttribute('data-index'));
                 const variantIndex = parseInt(checkbox.getAttribute('data-variant'));
                 const result = allResults[index];
-                
+
                 // Handle both single and multiple variants
                 const prompts = Array.isArray(result.prompts) ? result.prompts : [result.prompt];
                 const intents = Array.isArray(result.intents) ? result.intents : [result.intent];
-                
-                selectedResults.push({
+
+                const rowData = {
                     keyword: result.keyword,
                     volume: result.volume,
-                    topic: result.topic,
                     intent: intents[variantIndex] || intents[0] || 'N/A',
                     prompt: prompts[variantIndex]
-                });
+                };
+
+                if (currentClusteringType === 'both') {
+                    rowData.topicKeyword = result.topicKeyword || result.topic || 'N/A';
+                    rowData.topicPrompt = result.topicPrompt || 'N/A';
+                } else {
+                    rowData.topic = result.topic || 'N/A';
+                }
+
+                selectedResults.push(rowData);
             });
-            
+
             downloadCSV(selectedResults, `seo_to_ai_selected_${Date.now()}.csv`);
         });
-        
+
         // Download all
         document.getElementById('download-all-btn').addEventListener('click', () => {
             if (allResults.length === 0) return;
-            
+
             const allRows = [];
             allResults.forEach(result => {
                 const prompts = Array.isArray(result.prompts) ? result.prompts : [result.prompt];
                 const intents = Array.isArray(result.intents) ? result.intents : [result.intent];
-                
+
                 prompts.forEach((prompt, variantIndex) => {
-                    allRows.push({
+                    const rowData = {
                         keyword: result.keyword,
                         volume: result.volume,
-                        topic: result.topic,
                         intent: intents[variantIndex] || intents[0] || 'N/A',
                         prompt: prompt
-                    });
+                    };
+
+                    if (currentClusteringType === 'both') {
+                        rowData.topicKeyword = result.topicKeyword || result.topic || 'N/A';
+                        rowData.topicPrompt = result.topicPrompt || 'N/A';
+                    } else {
+                        rowData.topic = result.topic || 'N/A';
+                    }
+
+                    allRows.push(rowData);
                 });
             });
-            
+
             downloadCSV(allRows, `seo_to_ai_all_${Date.now()}.csv`);
         });
-        
+
         function downloadCSV(data, filename) {
-            let csv = 'Keyword|Volume|Topic|Intent|Prompt\n';
-            data.forEach(row => {
-                const keyword = row.keyword.replace(/\|/g, '');
-                const topic = (row.topic || 'N/A').replace(/\|/g, '');
-                const intent = (row.intent || 'N/A').replace(/\|/g, '');
-                const prompt = row.prompt.replace(/\|/g, '').replace(/\n/g, ' ');
-                csv += `${keyword}|${row.volume}|${topic}|${intent}|${prompt}\n`;
-            });
-            
+            let csv;
+
+            if (currentClusteringType === 'both') {
+                csv = 'Keyword|Volume|Topic (KW)|Topic (Prompt)|Intent|Prompt\n';
+                data.forEach(row => {
+                    const keyword = row.keyword.replace(/\|/g, '');
+                    const topicKw = (row.topicKeyword || 'N/A').replace(/\|/g, '');
+                    const topicPrompt = (row.topicPrompt || 'N/A').replace(/\|/g, '');
+                    const intent = (row.intent || 'N/A').replace(/\|/g, '');
+                    const prompt = row.prompt.replace(/\|/g, '').replace(/\n/g, ' ');
+                    csv += `${keyword}|${row.volume}|${topicKw}|${topicPrompt}|${intent}|${prompt}\n`;
+                });
+            } else {
+                csv = 'Keyword|Volume|Topic|Intent|Prompt\n';
+                data.forEach(row => {
+                    const keyword = row.keyword.replace(/\|/g, '');
+                    const topic = (row.topic || 'N/A').replace(/\|/g, '');
+                    const intent = (row.intent || 'N/A').replace(/\|/g, '');
+                    const prompt = row.prompt.replace(/\|/g, '').replace(/\n/g, ' ');
+                    csv += `${keyword}|${row.volume}|${topic}|${intent}|${prompt}\n`;
+                });
+            }
+
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             const url = URL.createObjectURL(blob);
-            
+
             link.setAttribute('href', url);
             link.setAttribute('download', filename);
             link.style.visibility = 'hidden';
-            
+
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
