@@ -53,23 +53,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $action = $_POST['action'] ?? '';
 
-// PHASE 1: Topic Clustering
+// PHASE 1: Topic Clustering (keywords)
 if ($action === 'cluster') {
     $keywords = json_decode($_POST['keywords'] ?? '[]', true);
     $market = $_POST['market'] ?? 'it';
-    
+
     if (empty($keywords)) {
         die(json_encode(['error' => 'Nessuna keyword fornita per clustering']));
     }
-    
+
     if (!is_array($keywords)) {
         die(json_encode(['error' => 'Formato keywords non valido']));
     }
-    
+
     try {
         error_log("Starting clustering for " . count($keywords) . " keywords (market: $market)");
         $topicMapping = performTopicClustering($keywords, $OPENAI_API_KEY, $market);
-        
+
         echo json_encode([
             'success' => true,
             'topic_mapping' => $topicMapping,
@@ -78,6 +78,35 @@ if ($action === 'cluster') {
     } catch (Exception $e) {
         error_log("Clustering error: " . $e->getMessage());
         die(json_encode(['error' => 'Errore clustering: ' . $e->getMessage()]));
+    }
+    exit;
+}
+
+// Clustering dei prompt generati
+if ($action === 'cluster_prompts') {
+    $prompts = json_decode($_POST['prompts'] ?? '[]', true);
+    $market = $_POST['market'] ?? 'it';
+
+    if (empty($prompts)) {
+        die(json_encode(['error' => 'Nessun prompt fornito per clustering']));
+    }
+
+    if (!is_array($prompts)) {
+        die(json_encode(['error' => 'Formato prompts non valido']));
+    }
+
+    try {
+        error_log("Starting prompt clustering for " . count($prompts) . " prompts (market: $market)");
+        $topicMapping = performPromptClustering($prompts, $OPENAI_API_KEY, $market);
+
+        echo json_encode([
+            'success' => true,
+            'topic_mapping' => $topicMapping,
+            'clusters_found' => count(array_unique(array_values($topicMapping)))
+        ]);
+    } catch (Exception $e) {
+        error_log("Prompt clustering error: " . $e->getMessage());
+        die(json_encode(['error' => 'Errore clustering prompt: ' . $e->getMessage()]));
     }
     exit;
 }
@@ -260,6 +289,108 @@ PROMPT;
         throw new Exception("Invalid clustering response format");
     }
     
+    return $topicMapping;
+}
+
+function performPromptClustering($prompts, $apiKey, $market = 'it') {
+    $url = 'https://api.openai.com/v1/chat/completions';
+    $language = getLanguageForMarket($market);
+
+    // Crea lista numerata dei prompt per il clustering
+    $promptList = "";
+    foreach (array_slice($prompts, 0, 500) as $index => $prompt) {
+        $promptList .= ($index + 1) . ". " . $prompt . "\n";
+    }
+
+    $systemPrompt = <<<PROMPT
+You are an expert topic clustering analyst. Your task: analyze conversational AI prompts and group them into EXACTLY 5 distinct, meaningful topic clusters based on the SUBJECT MATTER and TOPIC of each prompt.
+
+CRITICAL RULES:
+1. Create EXACTLY 5 clusters (no more, no less)
+2. Each cluster must be SPECIFIC and MEANINGFUL - NO generic catch-all clusters like "General", "Other", "Miscellaneous"
+3. Each cluster name should be 2-4 words maximum, descriptive and clear
+4. Distribute prompts intelligently - assign to CLOSEST semantic cluster based on the TOPIC discussed
+5. Focus on the SUBJECT of the prompt, not the intent (research, purchase, comparison, etc.)
+6. Clusters should reflect actual semantic topic groupings
+7. Choose the 5 MOST SIGNIFICANT topic areas represented
+8. Cluster names must be in {$language}
+
+OUTPUT FORMAT:
+Return ONLY a JSON object mapping each prompt INDEX (1-based) to its cluster name.
+{
+  "1": "Cluster Name A",
+  "2": "Cluster Name B",
+  ...
+}
+
+Cluster names must be consistent (same spelling/capitalization for same cluster).
+PROMPT;
+
+    $userPrompt = "Analyze these prompts and create EXACTLY 5 specific topic clusters based on their subject matter:\n\n" . $promptList;
+
+    $payload = [
+        'model' => 'gpt-4o',
+        'messages' => [
+            ['role' => 'system', 'content' => $systemPrompt],
+            ['role' => 'user', 'content' => $userPrompt]
+        ],
+        'temperature' => 0.3,
+        'response_format' => ['type' => 'json_object']
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_SSL_VERIFYPEER => true,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey
+        ]
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if (curl_errno($ch)) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        throw new Exception("Errore cURL OpenAI prompt clustering: $error");
+    }
+
+    curl_close($ch);
+
+    if ($httpCode !== 200) {
+        $errorBody = json_decode($response, true);
+        $errorMsg = $errorBody['error']['message'] ?? 'Unknown error';
+        throw new Exception("OpenAI API error: HTTP $httpCode - $errorMsg");
+    }
+
+    $data = json_decode($response, true);
+
+    if (!isset($data['choices'][0]['message']['content'])) {
+        throw new Exception("Invalid OpenAI response format");
+    }
+
+    $content = $data['choices'][0]['message']['content'];
+    $indexMapping = json_decode($content, true);
+
+    if (!is_array($indexMapping)) {
+        throw new Exception("Invalid prompt clustering response format");
+    }
+
+    // Converti il mapping da indice a prompt
+    $topicMapping = [];
+    foreach ($indexMapping as $index => $topic) {
+        $idx = intval($index) - 1; // Converti da 1-based a 0-based
+        if (isset($prompts[$idx])) {
+            $topicMapping[$prompts[$idx]] = $topic;
+        }
+    }
+
     return $topicMapping;
 }
 

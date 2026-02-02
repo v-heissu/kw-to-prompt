@@ -336,6 +336,15 @@
         tbody tr.selected {
             background: #f0f2ff !important;
         }
+
+        .clustering-option:has(input:checked) {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .clustering-option:hover {
+            border-color: #667eea;
+        }
         
         .error-message {
             background: #fee;
@@ -424,7 +433,7 @@
                 </select>
             </div>
                 <h2>⚙️ Opzioni Generazione</h2>
-                
+
                 <div style="display: flex; gap: 30px; margin-bottom: 20px; flex-wrap: wrap;">
                     <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                         <input type="checkbox" id="generate-variants" style="width: 18px; height: 18px; cursor: pointer;">
@@ -436,6 +445,28 @@
                             </small>
                         </span>
                     </label>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <p style="font-size: 15px; margin-bottom: 10px;"><strong>Tipo di Clustering:</strong></p>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.2s;" class="clustering-option">
+                            <input type="radio" name="clustering-type" value="keywords" checked style="width: 18px; height: 18px; cursor: pointer;">
+                            <span>
+                                <strong>Clusterizza Keywords</strong>
+                                <br>
+                                <small style="color: #666;">Raggruppa le keyword in input per topic</small>
+                            </span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; transition: all 0.2s;" class="clustering-option">
+                            <input type="radio" name="clustering-type" value="prompts" style="width: 18px; height: 18px; cursor: pointer;">
+                            <span>
+                                <strong>Clusterizza Prompt</strong>
+                                <br>
+                                <small style="color: #666;">Raggruppa i prompt generati per topic</small>
+                            </span>
+                        </label>
+                    </div>
                 </div>
             </div>
             
@@ -631,6 +662,9 @@
 
             // Get market selection
             const market = document.getElementById('market-select').value;
+
+            // Get clustering type
+            const clusteringType = document.querySelector('input[name="clustering-type"]:checked').value;
             
             // Start processing
             processBtn.disabled = true;
@@ -642,7 +676,7 @@
             allResults = [];
             
             try {
-                await processKeywords(keywords, customIntents, generateVariants, market);
+                await processKeywords(keywords, customIntents, generateVariants, market, clusteringType);
             } catch (error) {
                 showError('Errore durante l\'elaborazione: ' + error.message);
             } finally {
@@ -652,55 +686,65 @@
             }
         });
         
-        async function processKeywords(keywords, customIntents, generateVariants, market) {
+        async function processKeywords(keywords, customIntents, generateVariants, market, clusteringType) {
+            if (clusteringType === 'keywords') {
+                // FLUSSO 1: Clustering delle keyword (comportamento originale)
+                await processWithKeywordClustering(keywords, customIntents, generateVariants, market);
+            } else {
+                // FLUSSO 2: Clustering dei prompt generati
+                await processWithPromptClustering(keywords, customIntents, generateVariants, market);
+            }
+        }
+
+        async function processWithKeywordClustering(keywords, customIntents, generateVariants, market) {
             // PHASE 1: Topic Clustering (single call for all keywords)
-            progressText.textContent = 'Fase 1/2: Analisi topic clustering...';
+            progressText.textContent = 'Fase 1/2: Analisi topic clustering keywords...';
             progressFill.style.width = '10%';
             progressFill.textContent = '10%';
-            
+
             const clusteringFormData = new FormData();
             clusteringFormData.append('action', 'cluster');
             clusteringFormData.append('keywords', JSON.stringify(keywords));
             clusteringFormData.append('market', market);
-            
+
             const clusterResponse = await fetch('process.php', {
                 method: 'POST',
                 body: clusteringFormData
             });
-            
+
             // Check if response is JSON
-            const contentType = clusterResponse.headers.get('content-type');
+            let contentType = clusterResponse.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
                 const textResponse = await clusterResponse.text();
                 console.error('Non-JSON response received:', textResponse);
                 throw new Error('Server returned non-JSON response. Check test.php for diagnostics.');
             }
-            
+
             if (!clusterResponse.ok) {
                 throw new Error(`HTTP error! status: ${clusterResponse.status}`);
             }
-            
+
             const clusterData = await clusterResponse.json();
-            
+
             if (clusterData.error) {
                 throw new Error(clusterData.error);
             }
-            
+
             const topicMapping = clusterData.topic_mapping;
-            
+
             progressFill.style.width = '20%';
             progressFill.textContent = '20%';
-            
+
             // PHASE 2: Batch Processing (volume + prompt + intent)
             const batchSize = 50;
             const totalBatches = Math.ceil(keywords.length / batchSize);
-            
+
             for (let i = 0; i < totalBatches; i++) {
                 const batch = keywords.slice(i * batchSize, (i + 1) * batchSize);
                 const batchNum = i + 1;
-                
+
                 progressText.textContent = `Fase 2/2: Batch ${batchNum}/${totalBatches} - Elaborazione ${batch.length} keywords...`;
-                
+
                 const formData = new FormData();
                 formData.append('action', 'process');
                 formData.append('keywords', JSON.stringify(batch));
@@ -710,42 +754,180 @@
                 formData.append('custom_intents', JSON.stringify(customIntents));
                 formData.append('generate_variants', generateVariants ? '1' : '0');
                 formData.append('market', market);
-                
+
                 const response = await fetch('process.php', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 // Check if response is JSON
-                const contentType = response.headers.get('content-type');
+                contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
                     const textResponse = await response.text();
                     console.error('Non-JSON response received:', textResponse);
                     throw new Error('Server error during processing. Check test.php for diagnostics.');
                 }
-                
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
-                
+
                 if (data.error) {
                     throw new Error(data.error);
                 }
-                
+
                 // Update progress (20% + 80% for processing)
                 const progress = 20 + Math.round(((i + 1) / totalBatches) * 80);
                 progressFill.style.width = progress + '%';
                 progressFill.textContent = progress + '%';
-                
+
                 // Add results
                 allResults = allResults.concat(data.results);
-                
+
                 // Update results display
                 updateResults();
             }
-            
+
+            progressText.textContent = '✓ Completato!';
+            setTimeout(() => {
+                progressContainer.classList.remove('active');
+            }, 2000);
+        }
+
+        async function processWithPromptClustering(keywords, customIntents, generateVariants, market) {
+            // PHASE 1: Genera i prompt senza clustering
+            progressText.textContent = 'Fase 1/2: Generazione prompt...';
+            progressFill.style.width = '5%';
+            progressFill.textContent = '5%';
+
+            const batchSize = 50;
+            const totalBatches = Math.ceil(keywords.length / batchSize);
+
+            // Process all keywords first (without topic mapping)
+            for (let i = 0; i < totalBatches; i++) {
+                const batch = keywords.slice(i * batchSize, (i + 1) * batchSize);
+                const batchNum = i + 1;
+
+                progressText.textContent = `Fase 1/2: Batch ${batchNum}/${totalBatches} - Generazione prompt per ${batch.length} keywords...`;
+
+                const formData = new FormData();
+                formData.append('action', 'process');
+                formData.append('keywords', JSON.stringify(batch));
+                formData.append('batch', batchNum);
+                formData.append('total_batches', totalBatches);
+                formData.append('topic_mapping', JSON.stringify({})); // Empty - no topics yet
+                formData.append('custom_intents', JSON.stringify(customIntents));
+                formData.append('generate_variants', generateVariants ? '1' : '0');
+                formData.append('market', market);
+
+                const response = await fetch('process.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // Check if response is JSON
+                let contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const textResponse = await response.text();
+                    console.error('Non-JSON response received:', textResponse);
+                    throw new Error('Server error during processing. Check test.php for diagnostics.');
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Update progress (5% + 65% for prompt generation)
+                const progress = 5 + Math.round(((i + 1) / totalBatches) * 65);
+                progressFill.style.width = progress + '%';
+                progressFill.textContent = progress + '%';
+
+                // Add results
+                allResults = allResults.concat(data.results);
+            }
+
+            // PHASE 2: Cluster the generated prompts
+            progressText.textContent = 'Fase 2/2: Analisi topic clustering prompt...';
+            progressFill.style.width = '75%';
+            progressFill.textContent = '75%';
+
+            // Collect all prompts for clustering
+            const allPrompts = [];
+            const promptToResultIndex = []; // Maps prompt index to result index and variant index
+
+            allResults.forEach((result, resultIndex) => {
+                const prompts = Array.isArray(result.prompts) ? result.prompts : [result.prompt];
+                prompts.forEach((prompt, variantIndex) => {
+                    allPrompts.push(prompt);
+                    promptToResultIndex.push({ resultIndex, variantIndex });
+                });
+            });
+
+            const clusteringFormData = new FormData();
+            clusteringFormData.append('action', 'cluster_prompts');
+            clusteringFormData.append('prompts', JSON.stringify(allPrompts));
+            clusteringFormData.append('market', market);
+
+            const clusterResponse = await fetch('process.php', {
+                method: 'POST',
+                body: clusteringFormData
+            });
+
+            // Check if response is JSON
+            let contentType = clusterResponse.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await clusterResponse.text();
+                console.error('Non-JSON response received:', textResponse);
+                throw new Error('Server returned non-JSON response during prompt clustering.');
+            }
+
+            if (!clusterResponse.ok) {
+                throw new Error(`HTTP error! status: ${clusterResponse.status}`);
+            }
+
+            const clusterData = await clusterResponse.json();
+
+            if (clusterData.error) {
+                throw new Error(clusterData.error);
+            }
+
+            const topicMapping = clusterData.topic_mapping;
+
+            progressFill.style.width = '90%';
+            progressFill.textContent = '90%';
+
+            // Apply topic to each result based on the prompt clustering
+            allPrompts.forEach((prompt, promptIndex) => {
+                const topic = topicMapping[prompt] || 'Uncategorized';
+                const { resultIndex, variantIndex } = promptToResultIndex[promptIndex];
+
+                // For results with variants, we assign topic to the whole result (first prompt's topic)
+                // Or we could track topics per variant - let's use the first prompt's topic for simplicity
+                if (variantIndex === 0 || !allResults[resultIndex].topic || allResults[resultIndex].topic === 'Uncategorized') {
+                    allResults[resultIndex].topic = topic;
+                }
+
+                // Also store topics per variant if needed
+                if (!allResults[resultIndex].topics) {
+                    allResults[resultIndex].topics = [];
+                }
+                allResults[resultIndex].topics[variantIndex] = topic;
+            });
+
+            progressFill.style.width = '100%';
+            progressFill.textContent = '100%';
+
+            // Update results display
+            updateResults();
+
             progressText.textContent = '✓ Completato!';
             setTimeout(() => {
                 progressContainer.classList.remove('active');
