@@ -1,0 +1,25 @@
+# Environment variables (API keys)
+.env
+
+# Results cache
+results/
+*.csv
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+error_log
+
+# Composer
+vendor/
+composer.lock

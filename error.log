@@ -1,0 +1,258 @@
+[14-Nov-2025 17:24:30 Europe/Rome] PHP Warning:  syntax error, unexpected '"' in .env on line 4
+ in /home/pzriccar/tools.riccardogaffuri.it/kw-to-prompt/process.php on line 27
+[14-Nov-2025 17:30:20 Europe/Rome] PHP Warning:  syntax error, unexpected '"' in .env on line 4
+ in /home/pzriccar/tools.riccardogaffuri.it/kw-to-prompt/process.php on line 27
+[14-Nov-2025 17:36:03 Europe/Rome] Starting clustering for 40 keywords
+[14-Nov-2025 17:36:07 Europe/Rome] Processing batch 1/1 with 40 keywords
+[14-Nov-2025 17:47:44 Europe/Rome] Starting clustering for 40 keywords
+[14-Nov-2025 17:47:49 Europe/Rome] Processing batch 1/1 with 40 keywords
+[14-Nov-2025 17:51:36 Europe/Rome] Starting clustering for 1 keywords
+[14-Nov-2025 17:51:37 Europe/Rome] Processing batch 1/1 with 1 keywords
+[14-Nov-2025 22:31:13 Europe/Rome] Starting clustering for 1 keywords
+[14-Nov-2025 22:31:15 Europe/Rome] Processing batch 1/1 with 1 keywords
+[17-Nov-2025 10:41:33 Europe/Rome] Starting clustering for 1 keywords
+[17-Nov-2025 10:41:35 Europe/Rome] Processing batch 1/1 with 1 keywords
+[17-Nov-2025 11:21:17 Europe/Rome] Starting clustering for 9 keywords
+[17-Nov-2025 11:21:20 Europe/Rome] Processing batch 1/1 with 9 keywords
+[17-Nov-2025 12:37:20 Europe/Rome] Starting clustering for 5 keywords
+[17-Nov-2025 12:37:22 Europe/Rome] Processing batch 1/1 with 5 keywords (variants: no)
+[17-Nov-2025 12:37:44 Europe/Rome] Starting clustering for 5 keywords
+[17-Nov-2025 12:37:46 Europe/Rome] Processing batch 1/1 with 5 keywords (variants: yes)
+[17-Nov-2025 12:51:15 Europe/Rome] Starting clustering for 4 keywords
+[17-Nov-2025 12:51:17 Europe/Rome] Processing batch 1/1 with 4 keywords (variants: yes)
+[17-Nov-2025 14:31:41 Europe/Rome] Starting clustering for 8 keywords
+[17-Nov-2025 14:31:44 Europe/Rome] Processing batch 1/1 with 8 keywords (variants: yes)
+[17-Nov-2025 15:25:47 Europe/Rome] Starting clustering for 1 keywords (market: us)
+[17-Nov-2025 15:25:49 Europe/Rome] Processing batch 1/1 with 1 keywords (market: us, variants: no)
+[17-Nov-2025 15:26:03 Europe/Rome] Starting clustering for 1 keywords (market: us)
+[17-Nov-2025 15:26:04 Europe/Rome] Processing batch 1/1 with 1 keywords (market: us, variants: yes)
+[17-Nov-2025 16:21:07 Europe/Rome] Starting clustering for 8 keywords (market: it)
+[17-Nov-2025 16:21:10 Europe/Rome] Processing batch 1/1 with 8 keywords (market: it, variants: yes)
+[18-Nov-2025 15:48:38 Europe/Rome] Starting clustering for 8 keywords (market: it)
+[18-Nov-2025 15:48:40 Europe/Rome] Processing batch 1/1 with 8 keywords (market: it, variants: no)
+[19-Nov-2025 09:57:03 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[19-Nov-2025 09:57:06 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[19-Nov-2025 12:51:15 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[19-Nov-2025 12:51:16 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[19-Nov-2025 15:13:10 Europe/Rome] Starting clustering for 29 keywords (market: it)
+[19-Nov-2025 15:13:21 Europe/Rome] Processing batch 1/1 with 29 keywords (market: it, variants: yes)
+[19-Nov-2025 15:31:30 Europe/Rome] Starting clustering for 46 keywords (market: it)
+[19-Nov-2025 15:31:39 Europe/Rome] Processing batch 1/1 with 46 keywords (market: it, variants: yes)
+[19-Nov-2025 15:35:30 Europe/Rome] Starting clustering for 81 keywords (market: it)
+[19-Nov-2025 15:35:43 Europe/Rome] Processing batch 1/2 with 50 keywords (market: it, variants: yes)
+[19-Nov-2025 15:38:07 Europe/Rome] Error processing keyword 'numero fastweb per parlare con un operatore': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:07 Europe/Rome] Error processing keyword 'tim credito residuo numero': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:07 Europe/Rome] Error processing keyword 'numero telefono sky': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:07 Europe/Rome] Error processing keyword 'numero operatori sky': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:07 Europe/Rome] Error processing keyword 'numero per parlare con un operatore wind': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'nespresso assistenza clienti': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Processing batch 2/2 with 31 keywords (market: it, variants: yes)
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'numero di sky': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'sky assistenza clienti': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'apple centro assistenza': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'vodafone numero per credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:08 Europe/Rome] Error processing keyword 'sky numero di telefono': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'wind numero operatore': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'very mobile numero credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'numero tim per operatore': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'operatore wind numero': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'assistenza iphone': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:09 Europe/Rome] Error processing keyword 'numero della wind per sapere il credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'numero per ricarica vodafone': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'zalando numero verde': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'sky wifi numero verde': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'numero servizio clienti di sky': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'ticketone numero verde': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'tim numero per vedere il credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:10 Europe/Rome] Error processing keyword 'numero fastweb per credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'per sapere credito tim numero': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'assistenza sky q': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'numero tim per credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'servizio clienti sky numero': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'numero vodafone ricarica': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:11 Europe/Rome] Error processing keyword 'samsung assistenza numero verde': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'numero di wind per sapere credito': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'numero verde italo treno': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'numero credito ho': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'numero vodafone per credito residuo': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'vodafone parlare con un operatore numero': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:12 Europe/Rome] Error processing keyword 'numero tim per il credito residuo': Semrush API error: HTTP 403
+[19-Nov-2025 15:38:13 Europe/Rome] Error processing keyword 'numero telefono di sky': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:39 Europe/Rome] Starting clustering for 9 keywords (market: it)
+[19-Nov-2025 16:50:42 Europe/Rome] Processing batch 1/1 with 9 keywords (market: it, variants: yes)
+[19-Nov-2025 16:50:42 Europe/Rome] Error processing keyword 'abbonamenti serie a': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:42 Europe/Rome] Error processing keyword 'app telecomando': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'miglior sito streaming calcio gratis': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'collegare smartphone a tv': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'siti di film streaming': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'champions league in tv in chiaro': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'calcio eurosport': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:43 Europe/Rome] Error processing keyword 'offerte netflix': Semrush API error: HTTP 403
+[19-Nov-2025 16:50:44 Europe/Rome] Error processing keyword 'quanto costa abbonamento netflix': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:08 Europe/Rome] Starting clustering for 9 keywords (market: it)
+[19-Nov-2025 16:51:10 Europe/Rome] Processing batch 1/1 with 9 keywords (market: it, variants: yes)
+[19-Nov-2025 16:51:10 Europe/Rome] Error processing keyword 'abbonamenti serie a': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:10 Europe/Rome] Error processing keyword 'app telecomando': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'miglior sito streaming calcio gratis': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'collegare smartphone a tv': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'siti di film streaming': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'champions league in tv in chiaro': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'calcio eurosport': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:11 Europe/Rome] Error processing keyword 'offerte netflix': Semrush API error: HTTP 403
+[19-Nov-2025 16:51:12 Europe/Rome] Error processing keyword 'quanto costa abbonamento netflix': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:49 Europe/Rome] Starting clustering for 9 keywords (market: it)
+[19-Nov-2025 16:53:52 Europe/Rome] Processing batch 1/1 with 9 keywords (market: it, variants: yes)
+[19-Nov-2025 16:53:52 Europe/Rome] Error processing keyword 'abbonamenti serie a': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:52 Europe/Rome] Error processing keyword 'app telecomando': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:52 Europe/Rome] Error processing keyword 'miglior sito streaming calcio gratis': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:52 Europe/Rome] Error processing keyword 'collegare smartphone a tv': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:53 Europe/Rome] Error processing keyword 'siti di film streaming': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:53 Europe/Rome] Error processing keyword 'champions league in tv in chiaro': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:53 Europe/Rome] Error processing keyword 'calcio eurosport': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:53 Europe/Rome] Error processing keyword 'offerte netflix': Semrush API error: HTTP 403
+[19-Nov-2025 16:53:53 Europe/Rome] Error processing keyword 'quanto costa abbonamento netflix': Semrush API error: HTTP 403
+[20-Nov-2025 08:46:58 Europe/Rome] Starting clustering for 8 keywords (market: it)
+[20-Nov-2025 08:47:00 Europe/Rome] Processing batch 1/1 with 8 keywords (market: it, variants: yes)
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'modulo per disdetta sky pdf': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'modulo disdetta sky in pdf': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'sky disdetta modulo pdf': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'modulo disdetta a sky': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:01 Europe/Rome] Error processing keyword 'modulo disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:02 Europe/Rome] Error processing keyword 'disdetta sky modulo': Semrush API error: HTTP 403
+[20-Nov-2025 08:47:02 Europe/Rome] Error processing keyword 'sky modulo disdetta': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:55 Europe/Rome] Starting clustering for 8 keywords (market: it)
+[20-Nov-2025 09:41:57 Europe/Rome] Processing batch 1/1 with 8 keywords (market: it, variants: yes)
+[20-Nov-2025 09:41:57 Europe/Rome] Error processing keyword 'modulo per disdetta sky pdf': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:57 Europe/Rome] Error processing keyword 'modulo disdetta sky in pdf': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:57 Europe/Rome] Error processing keyword 'disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:57 Europe/Rome] Error processing keyword 'sky disdetta modulo pdf': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:58 Europe/Rome] Error processing keyword 'modulo disdetta a sky': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:58 Europe/Rome] Error processing keyword 'modulo disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:58 Europe/Rome] Error processing keyword 'disdetta sky modulo': Semrush API error: HTTP 403
+[20-Nov-2025 09:41:58 Europe/Rome] Error processing keyword 'sky modulo disdetta': Semrush API error: HTTP 403
+[20-Nov-2025 12:10:57 Europe/Rome] Starting clustering for 3 keywords (market: it)
+[20-Nov-2025 12:10:58 Europe/Rome] Processing batch 1/1 with 3 keywords (market: it, variants: yes)
+[20-Nov-2025 12:10:59 Europe/Rome] Error processing keyword 'hotel con spa dobbiaco': Semrush API error: HTTP 403
+[20-Nov-2025 12:10:59 Europe/Rome] Error processing keyword 'hotel a dobbiaco': Semrush API error: HTTP 403
+[20-Nov-2025 12:10:59 Europe/Rome] Error processing keyword 'hotel con ristorante dobbiaco': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:44 Europe/Rome] Starting clustering for 8 keywords (market: it)
+[20-Nov-2025 13:53:46 Europe/Rome] Processing batch 1/1 with 8 keywords (market: it, variants: yes)
+[20-Nov-2025 13:53:46 Europe/Rome] Error processing keyword 'modulo per disdetta sky pdf': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:46 Europe/Rome] Error processing keyword 'modulo disdetta sky in pdf': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:46 Europe/Rome] Error processing keyword 'disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:46 Europe/Rome] Error processing keyword 'sky disdetta modulo pdf': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:47 Europe/Rome] Error processing keyword 'modulo disdetta a sky': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:47 Europe/Rome] Error processing keyword 'modulo disdetta sky': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:47 Europe/Rome] Error processing keyword 'disdetta sky modulo': Semrush API error: HTTP 403
+[20-Nov-2025 13:53:47 Europe/Rome] Error processing keyword 'sky modulo disdetta': Semrush API error: HTTP 403
+[20-Nov-2025 14:57:57 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[20-Nov-2025 14:57:58 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[20-Nov-2025 14:57:58 Europe/Rome] Error processing keyword 'numero sky wifi': Semrush API error: HTTP 403
+[20-Nov-2025 15:25:23 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[20-Nov-2025 15:25:25 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[20-Nov-2025 15:25:25 Europe/Rome] Error processing keyword 'numero sky wifi': Semrush API error: HTTP 403
+[20-Nov-2025 15:57:52 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[20-Nov-2025 15:57:53 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[20-Nov-2025 15:57:53 Europe/Rome] Error processing keyword 'numero sky wifi': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:07 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[20-Nov-2025 16:22:09 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[20-Nov-2025 16:22:09 Europe/Rome] Error processing keyword 'sky togliere un pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:09 Europe/Rome] Error processing keyword 'togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:09 Europe/Rome] Error processing keyword 'come togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:09 Europe/Rome] Error processing keyword 'come togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:09 Europe/Rome] Error processing keyword 'togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'come togliere sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'togliere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'come togliere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'sky rimuovere pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:10 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky online': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:11 Europe/Rome] Error processing keyword 'rimuovere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:11 Europe/Rome] Error processing keyword 'rimuovere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:34 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[20-Nov-2025 16:22:36 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[20-Nov-2025 16:22:36 Europe/Rome] Error processing keyword 'sky togliere un pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:36 Europe/Rome] Error processing keyword 'togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:36 Europe/Rome] Error processing keyword 'come togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'come togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'come togliere sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'togliere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'come togliere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'sky rimuovere pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:37 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:38 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky online': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:38 Europe/Rome] Error processing keyword 'rimuovere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:38 Europe/Rome] Error processing keyword 'rimuovere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:56 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[20-Nov-2025 16:22:58 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[20-Nov-2025 16:22:58 Europe/Rome] Error processing keyword 'sky togliere un pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:58 Europe/Rome] Error processing keyword 'togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:58 Europe/Rome] Error processing keyword 'come togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'come togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'come togliere sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'togliere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'come togliere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:22:59 Europe/Rome] Error processing keyword 'sky rimuovere pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:23:00 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:23:00 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky online': Semrush API error: HTTP 403
+[20-Nov-2025 16:23:00 Europe/Rome] Error processing keyword 'rimuovere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:23:00 Europe/Rome] Error processing keyword 'rimuovere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:24 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[20-Nov-2025 16:37:27 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'sky togliere un pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'come togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'come togliere un pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'togliere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:28 Europe/Rome] Error processing keyword 'come togliere sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'togliere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'come togliere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'sky rimuovere pacchetto': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'rimuovere pacchetto sky online': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:29 Europe/Rome] Error processing keyword 'rimuovere pacchetti sky': Semrush API error: HTTP 403
+[20-Nov-2025 16:37:30 Europe/Rome] Error processing keyword 'rimuovere sky insider': Semrush API error: HTTP 403
+[20-Nov-2025 16:56:57 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[20-Nov-2025 16:56:58 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[20-Nov-2025 16:56:59 Europe/Rome] Error processing keyword 'numero sky wifi': Semrush API error: HTTP 403
+[20-Nov-2025 21:50:54 Europe/Rome] Starting clustering for 4 keywords (market: it)
+[20-Nov-2025 21:50:56 Europe/Rome] Processing batch 1/1 with 4 keywords (market: it, variants: yes)
+[20-Nov-2025 22:02:54 Europe/Rome] Starting clustering for 5 keywords (market: it)
+[20-Nov-2025 22:02:56 Europe/Rome] Processing batch 1/1 with 5 keywords (market: it, variants: yes)
+[20-Nov-2025 22:10:50 Europe/Rome] Starting clustering for 29 keywords (market: it)
+[20-Nov-2025 22:10:55 Europe/Rome] Processing batch 1/1 with 29 keywords (market: it, variants: yes)
+[20-Nov-2025 22:26:17 Europe/Rome] Starting clustering for 65 keywords (market: it)
+[20-Nov-2025 22:26:23 Europe/Rome] Processing batch 1/2 with 50 keywords (market: it, variants: yes)
+[20-Nov-2025 22:29:33 Europe/Rome] Processing batch 2/2 with 15 keywords (market: it, variants: yes)
+[20-Nov-2025 22:33:39 Europe/Rome] Starting clustering for 52 keywords (market: it)
+[20-Nov-2025 22:33:46 Europe/Rome] Processing batch 1/2 with 50 keywords (market: it, variants: yes)
+[20-Nov-2025 22:36:50 Europe/Rome] Processing batch 2/2 with 2 keywords (market: it, variants: yes)
+[20-Nov-2025 22:39:46 Europe/Rome] Starting clustering for 37 keywords (market: it)
+[20-Nov-2025 22:39:55 Europe/Rome] Processing batch 1/1 with 37 keywords (market: it, variants: yes)
+[20-Nov-2025 22:43:27 Europe/Rome] Starting clustering for 10 keywords (market: it)
+[20-Nov-2025 22:43:29 Europe/Rome] Processing batch 1/1 with 10 keywords (market: it, variants: yes)
+[21-Nov-2025 10:31:58 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[21-Nov-2025 10:32:01 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: yes)
+[21-Nov-2025 12:18:43 Europe/Rome] Starting clustering for 75 keywords (market: it)
+[21-Nov-2025 12:18:49 Europe/Rome] Processing batch 1/2 with 50 keywords (market: it, variants: no)
+[21-Nov-2025 12:21:33 Europe/Rome] Processing batch 2/2 with 25 keywords (market: it, variants: no)
+[19-Dec-2025 15:47:00 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[19-Dec-2025 15:47:01 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[23-Dec-2025 11:05:44 Europe/Rome] Starting clustering for 1 keywords (market: it)
+[23-Dec-2025 11:05:46 Europe/Rome] Processing batch 1/1 with 1 keywords (market: it, variants: yes)
+[23-Dec-2025 13:22:36 Europe/Rome] Starting clustering for 98 keywords (market: it)
+[23-Dec-2025 13:22:50 Europe/Rome] Processing batch 1/2 with 50 keywords (market: it, variants: no)
+[23-Dec-2025 13:24:53 Europe/Rome] Processing batch 2/2 with 48 keywords (market: it, variants: no)
+[20-Jan-2026 17:29:27 Europe/Rome] Starting clustering for 13 keywords (market: it)
+[20-Jan-2026 17:29:29 Europe/Rome] Processing batch 1/1 with 13 keywords (market: it, variants: no)
+[20-Jan-2026 17:36:44 Europe/Rome] Starting clustering for 17 keywords (market: it)
+[20-Jan-2026 17:36:51 Europe/Rome] Processing batch 1/1 with 17 keywords (market: it, variants: no)
+[30-Jan-2026 16:45:19 Europe/Rome] Starting clustering for 365 keywords (market: it)
+[30-Jan-2026 16:46:15 Europe/Rome] Processing batch 1/8 with 50 keywords (market: it, variants: no)
+[30-Jan-2026 20:59:45 Europe/Rome] Starting clustering for 365 keywords (market: it)
+[30-Jan-2026 21:00:36 Europe/Rome] Processing batch 1/8 with 50 keywords (market: it, variants: no)
+[02-Feb-2026 16:30:38 Europe/Rome] Starting clustering for 11 keywords (market: it)
+[02-Feb-2026 16:30:41 Europe/Rome] Processing batch 1/1 with 11 keywords (market: it, variants: no)
